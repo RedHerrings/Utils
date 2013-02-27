@@ -1,0 +1,1 @@
+ffmpeg -i DeleteAudio.avs -target ntsc-dvd video.mpg

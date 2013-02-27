@@ -1,0 +1,1 @@
+KillAudio(DirectShowSource("AVSEQ01.DAT"))
