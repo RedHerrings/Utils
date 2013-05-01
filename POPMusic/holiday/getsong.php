@@ -2,6 +2,7 @@
 ini_set( 'default_charset', 'UTF-8' );
 
 require_once __DIR__ . '/holidayParser.inc';
+require_once __DIR__ . '/YQL.inc';
 
 $menu = array(
 	'nc' => '國語新歌',
@@ -19,6 +20,8 @@ if(empty($kind))
 	$kind = "nc";
 }
 
+$song_name = filter_input(INPUT_GET, 'song', FILTER_SANITIZE_STRING);
+
 echo "好樂迪排行榜："; 
 foreach($menu as $key => $str)
 {
@@ -29,27 +32,41 @@ foreach($menu as $key => $str)
 }
 
 echo "<hr>\n";
+
+if(!empty($song_name))
+{
+
+$song_list = SearchYoutube("$song_name MV");
+
+$video_id = $song_list['query']['results']['video'][0]['id'];
+
 ?>
-<!--
+<H1><?php echo $song_name; ?></H1>
+
   <script type="text/javascript" src="swfobject.js"></script> 
   <div id="ytapiplayer">
     You need Flash player 8+ and JavaScript enabled to view this video.
   </div>
   <script type="text/javascript">
+    var videoId = "<?php echo $video_id; ?>";
 
     var params = { allowScriptAccess: "always" };
     var atts = { id: "myytplayer" };
-    swfobject.embedSWF("http://www.youtube.com/v/VIDEO_ID?enablejsapi=1&playerapiid=ytplayer&version=3",
-                       "ytapiplayer", "425", "356", "8", null, null, params, atts);
+    swfobject.embedSWF("http://www.youtube.com/v/"+ videoId +"?enablejsapi=1&playerapiid=ytplayer&version=3",
+                     "ytapiplayer", "425", "356", "8", null, null, params, atts);
 
     function onYouTubePlayerReady(playerId) {
-      //ytplayer = document.getElementById("myytplayer");
-	alert('player ready');
+      var videoId = "<?php echo $video_id; ?>";
+
+      ytplayer = document.getElementById("myytplayer");
+      ytplayer.loadVideoById(videoId, 0, "large");
+      ytplayer.playVideo();
     }
 
   </script>
--->
 <?php
+}
+
 $total_songs = get_songs($kind);
 
 function renderHTML(array $songs)
@@ -62,8 +79,9 @@ function renderHTML(array $songs)
 			      );
 
 		$link = "https://www.youtube.com/results?" . http_build_query($query);
+		$songUrl = urlencode("{$song['singer']} {$song['song']}");
 
-		echo "<li><a href=\"{$link}\" target=\"_blank\">".implode(' ', $song)."</a></li>\n";
+		echo "<li><a href=\"?song={$songUrl}\">".implode(' ', $song)."</a> [<a href=\"{$link}\" target=\"_blank\">Search YouTube</a>]</li>\n";
 	}
 
 	echo "</ul>";
