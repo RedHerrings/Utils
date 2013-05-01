@@ -121,3 +121,15 @@ function renderHTML(array $songs)
 
 renderHTML($total_songs);
 
+$apcInfo = apc_cache_info( 'user' );
+$apcInfo = $apcInfo['cache_list'];
+foreach($apcInfo as $info)
+{
+	if($info['info'] == $holiday_cache_key)
+	{
+		echo "<p>最後更新: " . date('Y-m-d H:i:s', $info['mtime']) . "</p>";
+		break;
+	}
+}
+
+?>
