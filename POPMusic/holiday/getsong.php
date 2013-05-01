@@ -103,6 +103,8 @@ if(!empty($song_name))
 
 function renderHTML(array $songs)
 {
+	global $kind;
+
 	echo "<ul>";
 	foreach($songs as $song)
 	{
@@ -113,7 +115,7 @@ function renderHTML(array $songs)
 		$link = "https://www.youtube.com/results?" . http_build_query($query);
 		$songUrl = urlencode("{$song['singer']} {$song['song']}");
 
-		echo "<li><a href=\"?song={$songUrl}\">".implode(' ', $song)."</a> [<a href=\"{$link}\" target=\"_blank\">Search YouTube</a>]</li>\n";
+		echo "<li><a href=\"?song={$songUrl}&kind={$kind}\">".implode(' ', $song)."</a> [<a href=\"{$link}\" target=\"_blank\">Search YouTube</a>]</li>\n";
 	}
 
 	echo "</ul>";
