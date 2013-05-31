@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">  
+    <meta>  
+        <author>Hialan Liu</author>  
+        <documentationURL></documentationURL>  
+    </meta>  
+      <bindings>  
+        <select itemPath="json.songs" produces="JSON" >  
+          <urls>  
+            <url env="all">http://ycalpha.myftp.org/~hialan/holiday/getsong_ws.php</url>  
+          </urls>  
+<!--
+             <paging model="offset">  
+               <start id="start_index" default="0" />  
+               <pagesize id="max_results" max="100" />  
+               <total default="10" />  
+             </paging>  
+-->
+          <inputs>  
+                <key id="kind" type="xs:string" paramType="query" required="false" />  
+          </inputs>  
+        </select>  
+      </bindings>  
+</table>  
+
