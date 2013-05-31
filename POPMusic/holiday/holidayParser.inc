@@ -71,8 +71,15 @@ function get_songs($kind)
 	{
 		for($i = 0; $i<3 ; $i++)
 		{
-			$j = $i + 2;
-			$request = "__EVENTTARGET=ctl00%24ContentPlaceHolder1%24dgSong%24ctl24%24ctl0" . $j . $post;
+			if($i > 0)
+			{
+				$j = $i + 2;
+				$request = "__EVENTTARGET=ctl00%24ContentPlaceHolder1%24dgSong%24ctl24%24ctl0" . $j . $post;
+			}
+			else
+			{
+				$request = null;
+			}
 			$html = getTable("http://www.holiday.com.tw/song/Billboard.aspx?kind=nc", $request);
 			$songs = parseTable($html);
 
