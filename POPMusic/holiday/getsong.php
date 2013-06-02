@@ -4,10 +4,19 @@ require_once __DIR__ . '/getsong_core.php';
 echo "好樂迪排行榜："; 
 foreach($menu as $key => $str)
 {
-	if($key == $kind)
+	if($key == $kind && $source == "holiday")
 		$str = "<b>$str</b>";
 
-	echo "<a href=\"?kind=$key\">$str</a> | ";
+	echo "<a href=\"?kind=$key&source=holiday\">$str</a> | ";
+}
+echo "<br>\n";
+echo "星聚點排行榜："; 
+foreach($menu as $key => $str)
+{
+	if($key == $kind && $source == "newcb")
+		$str = "<b>$str</b>";
+
+	echo "<a href=\"?kind=$key&source=newcb\">$str</a> | ";
 }
 
 echo "<hr>\n";
@@ -67,6 +76,7 @@ if(!empty($song_name))
 function renderHTML(array $songs)
 {
 	global $kind;
+	global $source;
 
 	echo "<ul>";
 	foreach($songs as $song)
@@ -78,7 +88,7 @@ function renderHTML(array $songs)
 		$link = "https://www.youtube.com/results?" . http_build_query($query);
 		$songUrl = urlencode("{$song['singer']} {$song['song']}");
 
-		echo "<li><a href=\"?song={$songUrl}&kind={$kind}\">".implode(' ', $song)."</a> [<a href=\"{$link}\" target=\"_blank\">Search YouTube</a>]</li>\n";
+		echo "<li><a href=\"?song={$songUrl}&kind={$kind}&source={$source}\">".implode(' ', $song)."</a> [<a href=\"{$link}\" target=\"_blank\">Search YouTube</a>]</li>\n";
 	}
 
 	echo "</ul>";
@@ -90,7 +100,7 @@ $apcInfo = apc_cache_info( 'user' );
 $apcInfo = $apcInfo['cache_list'];
 foreach($apcInfo as $info)
 {
-	if($info['info'] == $holiday_cache_key)
+	if($info['info'] == $songlist_cache_key)
 	{
 		echo "<p>最後更新: " . date('Y-m-d H:i:s', $info['mtime']) . "</p>";
 		break;
