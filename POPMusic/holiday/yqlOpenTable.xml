@@ -18,6 +18,7 @@
 -->
           <inputs>  
                 <key id="kind" type="xs:string" paramType="query" required="false" />  
+                <key id="source" type="xs:string" paramType="query" required="false" />  
           </inputs>  
         </select>  
       </bindings>  
