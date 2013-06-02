@@ -92,11 +92,25 @@ DOC;
 		foreach($rows as $rkey => $row)
 		{
 			$cols = $row->getElementsByTagName('td');
-			$song = array(
-					'grade'  => trim($cols->item(0)->nodeValue),
-					'singer' => trim($cols->item(5)->nodeValue),
-					'song'   => trim($cols->item(4)->nodeValue),
-				     );
+			
+			if($cols->length == 6)
+			{
+				$song = array(
+						'grade'  => trim($cols->item(0)->nodeValue),
+						'singer' => trim($cols->item(5)->nodeValue),
+						'song'   => trim($cols->item(4)->nodeValue),
+					     );
+			}
+			else 
+			{
+				$song = array(
+						'grade'  => trim($cols->item(0)->nodeValue),
+						'singer' => trim($cols->item(3)->nodeValue),
+						'song'   => trim($cols->item(2)->nodeValue),
+					     );
+			}
+
+			$song['song'] = str_replace("\\'", "'", $song['song']);
 
 			$songs[] = $song;
 		}

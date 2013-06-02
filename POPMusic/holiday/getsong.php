@@ -88,7 +88,13 @@ function renderHTML(array $songs)
 		$link = "https://www.youtube.com/results?" . http_build_query($query);
 		$songUrl = urlencode("{$song['singer']} {$song['song']}");
 
-		echo "<li><a href=\"?song={$songUrl}&kind={$kind}&source={$source}\">".implode(' ', $song)."</a> [<a href=\"{$link}\" target=\"_blank\">Search YouTube</a>]</li>\n";
+		$params = array(
+				"song" => "{$song['singer']} {$song['song']}",
+				"kind" => $kind,
+				"source" => $source,
+		);
+
+		echo "<li><a href=\"?" . http_build_query($params) . "\">" . implode(' ', $song) . "</a> [<a href=\"{$link}\" target=\"_blank\">Search YouTube</a>]</li>\n";
 	}
 
 	echo "</ul>";
